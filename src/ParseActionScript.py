@@ -31,11 +31,14 @@ action.getActionActor() = i
 '''
 
 class ActionScript:
-    
-    def __init__(self, actionScriptNum, actionType, actionActor):
-        self.actionScriptNum = actionScriptNum
+    actionScriptCounter = 0
+    ' Class for an Action Script'
+    def __init__(self, actionType=None, actionActor=None, actionReqdField=None):
+        ActionScript.actionScriptCounter += 1
+        self.actionScriptNum = ActionScript.actionScriptCounter
         self.actionType = actionType
         self.actionActor = actionActor
+        self.actionReqdField = actionReqdField
 
     def getActionScriptNum(self):
         return self.actionScriptNum
@@ -44,21 +47,85 @@ class ActionScript:
         return self.actionType
     
     def getActionActor(self):
-        return self.action
+        return self.actionActor
 
+    def getActionReqdField(self):
+        return self.actionReqdField
 
+    def setActionType(self,actionType):
+        self.actionType = actionType
+    
+    def setActionActor(self, actionActor):
+        self.actionActor = actionActor
+
+    def setActionReqdField(self,actionReqdField):
+        self.actionReqdField = actionReqdField
+        
+    def __del__(self):
+        ActionScript.actionScriptCounter -= 1
+            
+        
 def process (actionScriptParent, actionScriptChild):
     pass
 
-def parseScript(ruleSet, CD):
-    pass
+def createActionScript(ruleDict, CD):
+    ' Method to create an Action Script based on a set of rules and parsing a CD'
+    
+    for CDType,CDcontent in CD.iteritems():
+        #print CDType,CDcontent
+        if ruleDict.has_key(CDType):
+            
+            actionScript = ActionScript();
+            actionScript.setActionType(CDType)
+            actionScript.setActionActor(CDcontent['actor'])
+            actionScriptDict = {}
+            print CDType + " rule is looking for fields : ",
+            print ruleDict[CDType].getRelevantFields()
+            for field in ruleDict[CDType].getRelevantFields():
+                if CDcontent.has_key(field):
+                    actionScriptDict[field]=CDcontent[field]
+                              
+            print "Actor: " + " ".join(actionScript.getActionActor())
+            print "Task : " + actionScript.getActionType() +";",
+            for k, v in actionScriptDict.iteritems():
+                print k, value_list(v), ";",
+                
+            print 
+
+
+def value_list(x):
+    if isinstance(x, dict):
+        #return list(frozenset(x.values()))
+        return x.values()
+    elif isinstance(x, basestring):
+        return [x]
+    else:
+        return None
+    
+# 5: {'CD4': {'MTRANS'    : {'actor' : 'I',
+#                         'object' : 'popcorn',
+#                         'love-state-before' : '?',
+#                         'love-state-after' : '>8',
+#                         }}}
+
+
 
 #CD_dict = pickle.load( open( "CDs.p", "rb" ) )
 CD_dict = CDs.CD_dict
+ruleSet = ParseActionRules.ruleSet
+ruleDict = ParseActionRules.ruleDict
+
+#currentCD =  CD_dict[5]['CD4']
+#currentCD =  CD_dict[1]['result'][0]['CD1']
+#currentCD =  CD_dict[3]['result'][0]['CD5']
+currentCD =  CD_dict[2]['enable'][1]['CD3']
+
+createActionScript(ruleDict, currentCD)
 
 #parseRules = pickle.load( open( "parseRules.p", "rb" ) )
-
  
-for k, v in CD_dict.iteritems():
-    print k, v
-    
+#for k, v in CD_dict.iteritems():
+#    print k, v
+
+# for k, v in ruleDict.iteritems():
+#     print k, v 

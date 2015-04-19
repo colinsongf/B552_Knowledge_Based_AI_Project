@@ -9,7 +9,7 @@ import cPickle as pickle
                         'to' : 'AMC',
                         'instr' : '?'}}} 
 
-{'CD2' : 'Location I AMC'}
+{'CD2' : ['Location', ['I'], AMC']}
 
 {'result': ['CD1', 'CD2'] }    
                     
@@ -64,7 +64,7 @@ CD_dict = {
                         'from' : '?',
                         'to' : 'AMC',
                         'instr' : '?'}}} ,
-                {'CD2' : 'Location I AMC'}]},
+                {'CD2' : ['Location', ['I'], 'AMC']}]},
            
 2: {'enable' : [{'CD2' : 'Location I AMC'}, 
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
