@@ -106,4 +106,4 @@ ruleSet.append(speakRule)
 ruleDict[speakRule.getRuleName()] = speakRule
 
 # for item in ruleSet:
-#     print item.getRuleName()
+#     print item.getRuleName(), item.getRelevantFields()

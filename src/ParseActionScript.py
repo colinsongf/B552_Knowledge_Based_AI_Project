@@ -72,33 +72,39 @@ def createActionScript(ruleDict, CD):
     ' Method to create an Action Script based on a set of rules and parsing a CD'
     
     for CDType,CDcontent in CD.iteritems():
-        #print CDType,CDcontent
+        print CDType,CDcontent
         if ruleDict.has_key(CDType):
             
             actionScript = ActionScript();
             actionScript.setActionType(CDType)
             actionScript.setActionActor(CDcontent['actor'])
             actionScriptDict = {}
-            print CDType + " rule is looking for fields : ",
-            print ruleDict[CDType].getRelevantFields()
+            #print CDType + " rule is looking for fields : ",
+            #print ruleDict[CDType].getRelevantFields()
             for field in ruleDict[CDType].getRelevantFields():
                 if CDcontent.has_key(field):
                     actionScriptDict[field]=CDcontent[field]
                               
             print "Actor: " + " ".join(actionScript.getActionActor())
             print "Task : " + actionScript.getActionType() +";",
-            for k, v in actionScriptDict.iteritems():
-                print k, value_list(v), ";",
-                
+            for k_actionScriptDict, v_actionScriptDict in actionScriptDict.iteritems():
+                print k_actionScriptDict, 
+                if isinstance(v_actionScriptDict, dict):
+                    for k, v in v_actionScriptDict.iteritems():
+                        if ruleDict.has_key(k):
+                            #print "Found another CD"
+                            print k, v 
+                else:
+                    print value_list(v_actionScriptDict), ";",
             print 
 
 
 def value_list(x):
     if isinstance(x, dict):
         #return list(frozenset(x.values()))
-        return x.values()
+        return x.keys(),x.values()
     elif isinstance(x, basestring):
-        return [x]
+        return x
     else:
         return None
     
