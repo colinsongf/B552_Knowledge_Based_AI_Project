@@ -31,7 +31,7 @@ ruleDict = {}
 
 # ATRANS - abstract transfer; transfer of possession
 
-aTransRelevantFields = []
+aTransRelevantFields = ['object','from','to']
 aTransRule = ParseRule('ATRANS', aTransRelevantFields)
 ruleSet.append(aTransRule)
 ruleDict[aTransRule.getRuleName()] = aTransRule
@@ -45,7 +45,7 @@ pTransRule = ParseRule('PTRANS',pTransRelevantFields)
 ruleSet.append(pTransRule)
 ruleDict[pTransRule.getRuleName()] = pTransRule
      
-# ROPEL - apply force to an object (but not necessarily set in motion)
+# PROPEL - apply force to an object (but not necessarily set in motion)
 propelRelevantFields = ['from','to']        
 propelRule = ParseRule('PROPEL',propelRelevantFields) 
 ruleSet.append(propelRule)
@@ -61,13 +61,13 @@ ruleDict[ingestRule.getRuleName()] = ingestRule
 # ----------------
 
 # MTRANS - mental transfer of information
-mTransRelevantFields = ['object','instr']        
+mTransRelevantFields = ['mObject','instr']        
 mTransRule = ParseRule('MTRANS',mTransRelevantFields) 
 ruleSet.append(mTransRule)
 ruleDict[mTransRule.getRuleName()] = mTransRule
 
 # MBUILD - construction of new information from old information
-mBuildRelevantFields = ['mObject']        
+mBuildRelevantFields = ['mObject','instr']        
 mBuildRule = ParseRule('MBUILD',mBuildRelevantFields) 
 ruleSet.append(mBuildRule)
 ruleDict[mBuildRule.getRuleName()] = mBuildRule

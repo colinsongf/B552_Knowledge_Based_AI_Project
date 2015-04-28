@@ -3,12 +3,6 @@ import cPickle as pickle
 '''
  Conceptual Dependencies
  
-I went to watch spider man at AMC
-I loved the popcorn. 
-I went with John and Mary. 
-I will recommend to read the book
-
-
  {'CD1' : {'PTRANS' : {'actor' : 'I',
                         'object' : 'I',
                         'from' : '?',
@@ -70,20 +64,18 @@ CD_dict = {
                         'from' : '?',
                         'to' : 'AMC',
                         'instr' : '?'}}} ,
-                
                 {'CD2' : ['Location', ['I'], 'AMC']}]},
            
 2: {'enable' : [{'CD2' : 'Location I AMC'}, 
-                
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
-                        'object' : 'SpiderMan',
-                        'from' : 'SpiderMan',
+                        'mObject' : 'MOVIE-SpiderMan',
+                        'from' : 'MOVIE-SpiderMan',
                         'to' : 'I',
                         'instr' : { 'ATTEND' : { 
-                                                'actor' : 'I',
-                                                'object' : '?',
-                                                'from' : '?',
-                                                'to' : 'Movie Screen'
+                        'actor' : 'I',
+                        'object' : '?',
+                        'from' : '?',
+                        'to' : 'Movie Screen'
                         }}}}} ]},
            
 3: { 'result' : [{'CD5' : {'PTRANS' : {'actor' : ['I','John','Mary'],
@@ -91,29 +83,30 @@ CD_dict = {
                         'from' : '?',
                         'to' : 'AMC',
                         'instr' : '?'}}} ,
-                 
                  {'CD6' : ['Location', ['I','John','Mary'], 'AMC']} ]},
            
 4: { 'enable' : [{'CD3' : {'MTRANS' : {'actor' : 'I',
-                        'object' : 'SpiderMan',
-                        'from' : 'SpiderMan',
+                        'mObject' : 'MOVIE-SpiderMan',
+                        'from' : 'MOVIE-SpiderMan',
                         'to' : 'I',
                         'instr' : { 'ATTEND' : { 
-                                                'actor' : 'I',
-                                                'object' : '?',
-                                                'from' : '?',
-                                                'to' : 'Movie Screen'
+                        'actor' : 'I',
+                        'object' : '?',
+                        'from' : '?',
+                        'to' : 'Movie Screen'
                         }}}}} ,
-                 
                  {'CD7' : {'MTRANS' : {'actor' : 'I',
-                        'object' : {'ATTEND' :   
+                         
+                        'mObject' : {'ATTEND' :   
                                     {'actor' : '?',
+                                     'object' : 'book',
                                     'from' : '?',
-                                    'to' : 'book',
-                                    'instr' : '?'},
+                                    'to' : '?',
+                                    'instr' : '?'}},
                         'from' : 'I',
-                        'to' : 'AMC',
-                        'instr' : '?'}}}} ]},
+                        'to' : '?',
+                        'instr' : '?'
+                       }}} ]},
            
 5: {'CD4': {'MTRANS'    : {'actor' : 'I',
                         'object' : 'popcorn',
@@ -124,4 +117,4 @@ CD_dict = {
 }
 
 # Saving the CD dictionary in a pickle file
-pickle.dump(CD_dict, open('CDs.p', 'wb'))       
+#pickle.dump(CD_dict, open('CDs.p', 'wb'))       
