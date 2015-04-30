@@ -3,6 +3,11 @@ import cPickle as pickle
 '''
  Conceptual Dependencies
  
+-I went to watch spider man at AMC        
+-I loved the popcorn.         
+-I went with John and Mary.         
+-I will recommend to read the book
+
  {'CD1' : {'PTRANS' : {'actor' : 'I',
                         'object' : 'I',
                         'from' : '?',
@@ -18,11 +23,11 @@ import cPickle as pickle
                         'from' : 'SpiderMan',
                         'to' : 'I',
                         'instr' : { 'ATTEND' : { 
-                        'actor' : 'I',
-                        'object' : '?',
-                        'from' : '?',
-                        'to' : 'Movie Screen'
-                        }}}}} 
+                                    'actor' : 'I',
+                                    'object' : '?',
+                                    'from' : '?',
+                                    'to' : 'Movie-Screen'
+                                    }}}}} 
                         
 
 {'enable': ['CD2', 'CD3']}
@@ -68,45 +73,45 @@ CD_dict = {
            
 2: {'enable' : [{'CD2' : 'Location I AMC'}, 
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
-                        'mObject' : 'MOVIE-SpiderMan',
-                        'from' : 'MOVIE-SpiderMan',
-                        'to' : 'I',
-                        'instr' : { 'ATTEND' : { 
-                        'actor' : 'I',
-                        'object' : '?',
-                        'from' : '?',
-                        'to' : 'Movie Screen'
+                                      'mObject' : 'MOVIE-SpiderMan',
+                                      'from' : 'MOVIE-SpiderMan',
+                                      'to' : 'I',
+                                      'instr' : { 'ATTEND' : { 
+                                                              'actor' : 'I',
+                                                              'object' : '?',
+                                                              'from' : '?',
+                                                              'to' : 'Movie Screen'
                         }}}}} ]},
            
 3: { 'result' : [{'CD5' : {'PTRANS' : {'actor' : ['I','John','Mary'],
-                        'object' : ['I','John','Mary'],
-                        'from' : '?',
-                        'to' : 'AMC',
-                        'instr' : '?'}}} ,
-                 {'CD6' : ['Location', ['I','John','Mary'], 'AMC']} ]},
+                                       'object' : ['I','John','Mary'],
+                                       'from' : '?',
+                                       'to' : 'AMC',
+                                       'instr' : '?'}}} ,
+                {'CD6' : ['Location', ['I','John','Mary'], 'AMC']} ]},
            
 4: { 'enable' : [{'CD3' : {'MTRANS' : {'actor' : 'I',
-                        'mObject' : 'MOVIE-SpiderMan',
-                        'from' : 'MOVIE-SpiderMan',
-                        'to' : 'I',
-                        'instr' : { 'ATTEND' : { 
-                        'actor' : 'I',
-                        'object' : '?',
-                        'from' : '?',
-                        'to' : 'Movie Screen'
-                        }}}}} ,
+                                       'mObject' : 'MOVIE-SpiderMan',
+                                       'from' : 'MOVIE-SpiderMan',
+                                       'to' : 'I',
+                                       'instr' : { 'ATTEND' : { 
+                                                               'actor' : 'I',
+                                                               'object' : '?',
+                                                               'from' : '?',
+                                                               'to' : 'Movie Screen'
+                                                               }}}}} ,
                  {'CD7' : {'MTRANS' : {'actor' : 'I',
                          
-                        'mObject' : {'ATTEND' :   
-                                    {'actor' : '?',
-                                     'object' : 'book',
-                                    'from' : '?',
-                                    'to' : '?',
-                                    'instr' : '?'}},
-                        'from' : 'I',
-                        'to' : '?',
-                        'instr' : '?'
-                       }}} ]},
+                                        'mObject' : {'ATTEND' :   
+                                                     {'actor' : '?',
+                                                      'object' : 'book',
+                                                      'from' : '?',
+                                                      'to' : '?',
+                                                      'instr' : '?'}},
+                                       'from' : 'I',
+                                       'to' : '?',
+                                       'instr' : '?'
+                                       }}} ]},
            
 5: {'CD4': {'MTRANS'    : {'actor' : 'I',
                         'object' : 'popcorn',
