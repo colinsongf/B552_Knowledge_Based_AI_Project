@@ -360,8 +360,8 @@ def removeNotKnownElements(actionScript):
 
 def is_mutual_exclusivity_top_activated(actionScriptsList):
     '''actionScript is a list of action scripts'''
-    print 'in mutual function'
-    print actionScriptsList
+    #print 'in mutual function'
+    #print actionScriptsList
     flag = 1
     for eachActionScript in actionScriptsList:
 #        print 'g eachActionScript', eachActionScript
@@ -427,7 +427,7 @@ def processListAfterTopActivated(listToProcess):
                     newList.append(lower(eachSubItem))
             processedList.append(newList)
         else:
-            print eachItem
+            #print eachItem
             if '-' in eachItem:
                 processedList.append(lower(eachItem.split('-')[0]))
                 descriptionDict[lower(eachItem.split('-')[0])] = eachItem.split('-')[1]            
@@ -526,13 +526,13 @@ if __name__ == "__main__":
     
     actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
     
-    print "Action Script Master List"
-    print actionScriptMasterList
-    print "Action Script English Sentence Master list"
-    print actionScriptEnglishSentenceMasterList
-    print "Mutual Exclusivity TOP"
+    #print "Action Script Master List"
+    #print actionScriptMasterList
+    #print "Action Script English Sentence Master list"
+    #print actionScriptEnglishSentenceMasterList
+    #print "Mutual Exclusivity TOP"
     mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
-    print mutual_Exclusivity_TOP
+    #print mutual_Exclusivity_TOP
     
     if mutual_Exclusivity_TOP == False:
         print "-------------- NO RECOMMENDATION OF MUTUAL EXCLUSITY BETWEEN ITEMS FOUND IN SENTENCES ----------------"
@@ -548,14 +548,14 @@ if __name__ == "__main__":
         processedList, descriptionDict = processListAfterTopActivated(mutual_Exclusivity_TOP)
         
         #print listToProcess
-        print processedList
-        print descriptionDict
+        #print processedList
+        #print descriptionDict
         
         
         similarityFinder = SimilarityFinder(processedList)
         maxScoresDict = similarityFinder.findSimilarity()
         
-        print maxScoresDict
+        #print maxScoresDict
         
         for key in maxScoresDict.keys():
             print '-+------------------------------------------------------------------------------------------------+-'
