@@ -32,16 +32,16 @@ class SimilarityFinder:
             
         
         
-        print recommendationFiltered  # @UndefinedVariable
-        print choices  # @UndefinedVariable
-        print choiceScores
+        #print 'recommendationFiltered',recommendationFiltered  # @UndefinedVariable
+        #print 'choices',choices  # @UndefinedVariable
+        #print 'choiceScores',choiceScores
         
         maxChoiceScores = {}
         
         for eachKey in choiceScores.keys():        
             maxChoiceScores[eachKey] = max(choiceScores[eachKey])
         
-        print maxChoiceScores
+        #print 'maxChoiceScores',maxChoiceScores
         return maxChoiceScores
 
 

@@ -1,6 +1,6 @@
-#import cPickle as pickle
+# import cPickle as pickle
 # Saving the CD dictionary in a pickle file
-#pickle.dump(parseRules, open('parseRules.p', 'wb'))
+# pickle.dump(parseRules, open('parseRules.p', 'wb'))
 
 class ParseRule:
     'Class for the Parsing Rules'
@@ -29,7 +29,6 @@ ruleDict = {}
 # ----------------
 
 # ATRANS - abstract transfer; transfer of possession
-
 aTransRelevantFields = ['object','from','to']
 aTransRule = ParseRule('ATRANS', aTransRelevantFields)
 ruleDict[aTransRule.getRuleName()] = aTransRule

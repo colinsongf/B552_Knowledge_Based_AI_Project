@@ -86,12 +86,10 @@ CD_dict1 = {
                         'object' : 'I',
                         'from' : '?',
                         'to' : 'AMC',
-                        'instr' : '?'}}} ,
-#                 {'CD2' : ['LOCATION', ['I'], 'AMC']}]},                  
+                        'instr' : '?'}}} ,             
                 {'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}]},
 
-# '2': {'enable' : [{'CD2' : ['LOCATION', ['I'], 'AMC']},            
 '2': {'enable' : [{'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}, 
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
@@ -109,8 +107,7 @@ CD_dict1 = {
                                        'object' : ('I','John','Mary'),
                                        'from' : '?',
                                        'to' : 'AMC',
-                                       'instr' : '?'}}} ,
-#                 {'CD6' : ['LOCATION', ['I','John','Mary'], 'AMC']} ]},                   
+                                       'instr' : '?'}}} ,                   
                 {'CD6' : {'LOCATION' : {'actor' : ('I','John','Mary'),
                                         'place' : 'AMC'}}} ]},
            
@@ -140,9 +137,7 @@ CD_dict1 = {
 '5': {'CD4': {'MTRANS'    : {'actor' : 'I',
                         'mObject' : 'popcorn',
                         'state-change-before' : '?',
-                        'state-change-after' : 'love>8',                        
-#                         'love-state-before' : '?',
-#                         'love-state-after' : '>8',
+                        'state-change-after' : 'love>8'                        
                         }}}
            
 }
@@ -155,11 +150,9 @@ CD_dict2 = {
                         'from' : '?',
                         'to' : 'AMC',
                         'instr' : '?'}}} ,
-#                 {'CD2' : ['LOCATION', ['I'], 'AMC']}]},                  
                 {'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}]},
-
-# '2': {'enable' : [{'CD2' : ['LOCATION', ['I'], 'AMC']},            
+            
 '2': {'enable' : [{'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}, 
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
@@ -178,7 +171,6 @@ CD_dict2 = {
                                        'from' : '?',
                                        'to' : 'AMC',
                                        'instr' : '?'}}} ,
-#                 {'CD6' : ['LOCATION', ['I','John','Mary'], 'AMC']} ]},                   
                 {'CD6' : {'LOCATION' : {'actor' : ('I','John','Mary'),
                                         'place' : 'AMC'}}} ]},
            
@@ -208,9 +200,7 @@ CD_dict2 = {
 '5': {'CD4': {'MTRANS'    : {'actor' : 'I',
                         'mObject' : 'popcorn',
                         'state-change-before' : '?',
-                        'state-change-after' : 'love>8',                        
-#                         'love-state-before' : '?',
-#                         'love-state-after' : '>8',
+                        'state-change-after' : 'love>8'                        
                         }}}
            
 }
@@ -223,11 +213,9 @@ CD_dict3 = {
                         'from' : '?',
                         'to' : 'AMC',
                         'instr' : '?'}}} ,
-#                 {'CD2' : ['LOCATION', ['I'], 'AMC']}]},                  
                 {'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}]},
 
-# '2': {'enable' : [{'CD2' : ['LOCATION', ['I'], 'AMC']},            
 '2': {'enable' : [{'CD2' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'AMC'}}}, 
                 {'CD3' : {'MTRANS' : {'actor' : 'I',
@@ -246,7 +234,6 @@ CD_dict3 = {
                                        'from' : '?',
                                        'to' : 'AMC',
                                        'instr' : '?'}}} ,
-#                 {'CD6' : ['LOCATION', ['I','John','Mary'], 'AMC']} ]},                   
                 {'CD6' : {'LOCATION' : {'actor' : ('I','John','Mary'),
                                         'place' : 'AMC'}}} ]},
            
@@ -255,11 +242,9 @@ CD_dict3 = {
                         'from' : '?',
                         'to' : 'IMax',
                         'instr' : '?'}}} ,
-#                 {'CD8' : ['LOCATION', ['I'], 'IMax']}]},                  
                 {'CD8' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'Imax'}}}]},
 
-# '2': {'enable' : [{'CD8' : ['LOCATION', ['I'], 'IMax']},            
 '5': {'enable' : [{'CD8' : {'LOCATION': {'actor' : ('I'), 
                                          'place' : 'IMax'}}}, 
                 {'CD9' : {'MTRANS' : {'actor' : 'I',
@@ -276,9 +261,7 @@ CD_dict3 = {
 '6': {'CD4': {'MTRANS'    : {'actor' : 'I',
                         'mObject' : 'popcorn',
                         'state-change-before' : '?',
-                        'state-change-after' : 'love>8',                        
-#                         'love-state-before' : '?',
-#                         'love-state-after' : '>8',
+                        'state-change-after' : 'love>8'                        
                         }}}
            
 }    
@@ -331,9 +314,4 @@ def getMasterCDList(option):
         return makeCDMasterList(CD_dict2)
     else:
         return makeCDMasterList(CD_dict3) 
-
-#masterCD_List = makeCDMasterList(CD_dict1)
-# masterCD_List = list(set(masterCD_List))
-# print '*' * 50
-# for CD in masterCD_List:
-#     print CD        
+  
