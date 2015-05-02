@@ -1,7 +1,10 @@
 # Load the CD dictionary back from the pickle file.
 import cPickle as pickle
-import CDs, ParseActionRules
-
+import CDs, ParseActionRules, SimilarityFinder
+import operator
+from string import lower
+from nltk.corpus import wordnet as wn
+from SimilarityFinder import SimilarityFinder
 '''
 class Action Script:
     ActionScriptNum (integer)
@@ -353,39 +356,13 @@ def removeNotKnownElements(actionScript):
     return cleanActionScript
     
       
-def action_script_to_sentence(actionScriptBook, sentence=''):
-    ''' Creating a sentence for a given ActionScript'''
-    queue = []
-    queue.append(actionScriptBook)
-    #actionScriptSentence = '' 
-    while (queue != []):
-        toExpand = queue[0]
-        del queue[0]
-        for item in toExpand:
-            if (not isinstance(item, list)):
-                if (item == 'actor'):
-                    sentence += ' by '
-                elif (item == 'mObject'):
-                    sentence += ' transferring mental information which is '
-                elif (item == 'object'):
-                    sentence += ' object is '
-                elif (item == 'from'):
-                    sentence += ' from '
-                elif (item == 'to'):
-                    sentence += ' to '
-                elif (item == 'instr'):
-                    sentence += ' using '
-                elif (item == 'MTRANS'):
-                    sentence += ' Mental Transfer of Information '
-                else: 
-                    sentence += item
-            else:
-                queue.append(item)
-                
-    return sentence
+
 
 def is_mutual_exclusivity_top_activated(actionScriptsList):
     '''actionScript is a list of action scripts'''
+    print 'in mutual function'
+    print actionScriptsList
+    flag = 1
     for eachActionScript in actionScriptsList:
 #        print 'g eachActionScript', eachActionScript
         for eachSubItem in eachActionScript:
@@ -396,11 +373,14 @@ def is_mutual_exclusivity_top_activated(actionScriptsList):
                     recommendScript = eachActionScript
                     actorInRecommendScript = eachActionScript[eachActionScript.index('actor')+1]
                     recommededObject = eachSubItem[eachSubItem.index('object')+1]
+                    flag = 0
 #                    print 'g recommendScript: ', recommendScript
 #                    print 'g actorInRecommendScript', actorInRecommendScript
 #                    print 'g recommededObject', recommededObject
                     break
-    
+                
+    if flag == 1:
+        return False
     
     #Finding objects over which recommendation happens
 #    print '\ng Finding objects over which recommendation happens'
@@ -426,58 +406,44 @@ def is_mutual_exclusivity_top_activated(actionScriptsList):
     #return actionScriptSentence
     
 
-def old_main_function_only_for_testing_delete_it():
-    #CD_dict = pickle.load( open( "CDs.p", "rb" ) )
-    # CD_dict = CDs.CD_dict
+def processListAfterTopActivated(listToProcess):
+    processedList = []
+    descriptionDict = {}
+    for eachItem in listToProcess:
+        if isinstance(eachItem,list):
+            newList = []
+            for eachSubItem in eachItem:
+                if '-' in eachSubItem:
+                    newList.append(lower(eachSubItem.split('-')[0]))
+                    descriptionDict[lower(eachSubItem.split('-')[0])] = eachSubItem.split('-')[1]
+                
+                #Now process it further to handle type two sentences where location of movie is mentioned
+                #Additional check has to be done as key might already be preset in descriptionDict
+                elif len(eachSubItem.split(" ")) > 1:
+                    newList.append(lower(eachSubItem.split(" ")[0]))
+                    if lower(eachSubItem.split(" ")[0]) in descriptionDict.keys():                        
+                        descriptionDict[lower(eachSubItem.split(" ")[0])+'#'] = " ".join(eachSubItem.split(' ')[1:])
+                else:
+                    newList.append(lower(eachSubItem))
+            processedList.append(newList)
+        else:
+            print eachItem
+            if '-' in eachItem:
+                processedList.append(lower(eachItem.split('-')[0]))
+                descriptionDict[lower(eachItem.split('-')[0])] = eachItem.split('-')[1]            
+            #Now process it further to handle type two sentences where location of movie is mentioned
+            elif len(eachItem.split(" ")) > 1:
+                processedList.append(lower(eachItem.split(" ")[0]))
+                descriptionDict[lower(eachItem.split(" ")[0])] = " ".join(eachItem.split(" ")[1:])
+            else:
+                processedList.append(lower(eachItem))   
+    return (processedList,descriptionDict)  
     
-    masterCD_List = CDs.masterCD_List
-    ruleDict = ParseActionRules.ruleDict
-    
-    # currentCDFirst =  CD_dict['2']['enable'][1]['CD3']
-    # currentCDLast =  CD_dict['4']['enable'][1]['CD7']
-    
-    currentCDFirst =  masterCD_List[4]
-    currentCDLast =  masterCD_List[6]
     
     
-    print "Creating action script for :", currentCDFirst
-    createACFirst = createActionScript(ruleDict, currentCDFirst)
-    print '-'*60
-    print "g currentCDFirst : ", currentCDFirst
-    print "g createACFirst : ", createACFirst
-    print '-'*60
-    print
     
-    print "Creating action script for :", currentCDLast
-    createACLast = createActionScript(ruleDict, currentCDLast)
-    print '-'*60
-    print "g currentCDLast : ", currentCDLast
-    print "g createACLast : ", createACLast
-    print '-'*60
-    
-    
-    print "In Main"
-    print createACFirst
-    print createACLast
-    
-    
-    cleanedActionScript_1 =  removeNotKnownElements(createACFirst)
-    
-    actionSentenceFirst = action_script_to_sentence(createACFirst)
-    actionSentenceFirstNew = createSentenceForActionScript(cleanedActionScript_1)
-    
-    cleanedActionScript_2 =  removeNotKnownElements(createACLast)
-    
-    actionSentenceLast = action_script_to_sentence(createACLast)
-    actionSentenceLastNew = createSentenceForActionScript(cleanedActionScript_2)
-    
-    print 'Action sentence first  : ', actionSentenceFirst
-    #print 'actionSentenceFirstNew : ', actionSentenceFirstNew
-    
-    #print createACLast
-    print 'Action sentence last      : ', actionSentenceLast
-    # print 'Action sentence last New  : ', actionSentenceLastNew
-    
+                
+                   
     '''Now we should look for specific rules to activate the top which are
             mObject in list inside list
             same actor for both sentences
@@ -486,7 +452,14 @@ def old_main_function_only_for_testing_delete_it():
     #print is_mutual_exclusivity_top_activated([createACFirst,createACLast])
     #parseRules = pickle.load( open( "parseRules.p", "rb" ) )
      
-    
+ 
+def valueForKey(dict,key):
+    try:
+        value = dict[key]
+        return value 
+    except:
+        return ""
+   
 def createActionScriptsAndEnglishSentences(masterCD_List,ruleDict):
     ''' Create Action Script and equivalent English Translation for each CD ''' 
     actionScriptMasterList = [] 
@@ -509,18 +482,104 @@ def createActionScriptsAndEnglishSentences(masterCD_List,ruleDict):
         print 'Action Script          : ', actionScriptMasterList[i]                     
         print 'Action Script Sentence : ', actionScriptEnglishSentenceMasterList[i] 
         print
-
+    print '-'*60 
     return actionScriptMasterList,actionScriptEnglishSentenceMasterList
 
 
-masterCD_List = CDs.masterCD_List
-ruleDict = ParseActionRules.ruleDict
-
-i = 0
-for CD in masterCD_List:
-    print i, CD
-    i+=1
-
-actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
-
-print is_mutual_exclusivity_top_activated(actionScriptMasterList)
+# Main()
+if __name__ == "__main__":
+    
+    print '--+---------WELCOME TO CONCEPT LEVEL SENTIMENT ANALYZER---------+--'
+    print ''
+    print 'Choice 1 :: Sentences'
+    print '---------------------'
+    print '-I went to watch spider man at AMC.'
+    print '-I loved the popcorn.'
+    print '-I went with John and Mary.'
+    print '-I will recommend to read the book'
+    print '-----------------------------------'
+    print ''
+    print 'Choice 2 :: Sentences'
+    print '---------------------'
+    print '-I went to watch spider man at AMC.'
+    print '-I loved the popcorn.'
+    print '-I went with John and Mary.'
+    print '-I will prefer to watch spider man at Imax'
+    print ''
+    print 'Choice 3 :: Sentences'
+    print '---------------------'
+    print '-I went to watch spider man at AMC.'
+    print '-I loved the popcorn.'
+    print '-I went with John and Mary.'
+    print '-I went to watch spider man at Imax'
+    print '-------------------------------------------------------------------'
+    print ''
+    option = input("Please enter the sentence you want to evaluate :: ")
+    
+    masterCD_List = CDs.getMasterCDList(int(option))
+    ruleDict = ParseActionRules.ruleDict
+    
+    i = 0
+    for CD in masterCD_List:
+        print i, CD
+        i+=1
+    
+    actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
+    
+    print "Action Script Master List"
+    print actionScriptMasterList
+    print "Action Script English Sentence Master list"
+    print actionScriptEnglishSentenceMasterList
+    print "Mutual Exclusivity TOP"
+    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
+    print mutual_Exclusivity_TOP
+    
+    if mutual_Exclusivity_TOP == False:
+        print "-------------- NO RECOMMENDATION OF MUTUAL EXCLUSITY BETWEEN ITEMS FOUND IN SENTENCES ----------------"
+    else:
+        ''' If this is a list that means the TOP got activated:
+            The list can have two type of structures as per our CDS 
+            1. ['item1',['item2-DESC']] DESC has to be a single word having delimiter other than '-'
+            2. ['item1 at xyz1',['item1 at xyz2']] so in this case we are trying to find out the place xyz2 over xyz1'''
+        
+        
+        #listToProcess= ['movie-SpiderMan',['book-Famous Five','popcorn']]
+        #listToProcess1 = ['movie at amc',['movie at imax','popcorn']]
+        processedList, descriptionDict = processListAfterTopActivated(mutual_Exclusivity_TOP)
+        
+        #print listToProcess
+        print processedList
+        print descriptionDict
+        
+        
+        similarityFinder = SimilarityFinder(processedList)
+        maxScoresDict = similarityFinder.findSimilarity()
+        
+        print maxScoresDict
+        
+        for key in maxScoresDict.keys():
+            print '-+------------------------------------------------------------------------------------------------+-'
+            if str(maxScoresDict[key]) == '1.0':
+                #That means that there are two items which are similar
+                print "preferred " + key + " " + descriptionDict[key] + " Over " + key + " " + descriptionDict[key+'#']
+                
+               
+            else:    
+                print mutual_Exclusivity_TOP[0] + " " +  " preferred over " + key + " " + valueForKey(descriptionDict, key) + " with score %.2f" % maxScoresDict[key] + " out of 1.0"
+                    
+        
+        print '-+------------------------------------------------------------------------------------------------+-'  
+        print '\n'
+        #some more explanations
+        if len(maxScoresDict.keys()) > 1 and max(maxScoresDict.values()) != 1.0:
+            print 'Most Preferred :-> '
+            print mutual_Exclusivity_TOP[0] + " is being recommended as MOST LIKELIHOOD over " + max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0] + \
+            " " + valueForKey(descriptionDict, max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0])
+        elif max(maxScoresDict.values()) == 1.0:
+            print 'Most Preferred :-> '
+            
+            print mutual_Exclusivity_TOP[0] + " is being recommended as MOST LIKELIHOOD over " + \
+            max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0] + \
+            " " + descriptionDict[max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0]+'#']  
+             
+        

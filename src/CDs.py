@@ -3,10 +3,28 @@ import cPickle as pickle
 '''
  Conceptual Dependencies
  
+ SENTENCE 1
+ ----------
 -I went to watch spider man at AMC        
 -I loved the popcorn.         
 -I went with John and Mary.         
 -I will recommend to read the book
+
+ SENTENCE 2
+ ----------
+-I went to watch spider man at AMC        
+-I loved the popcorn.         
+-I went with John and Mary.         
+-I will prefer to watch spider man at Imax
+
+ SENTENCE 3
+ ----------
+-I went to watch spider man at AMC        
+-I loved the popcorn.         
+-I went with John and Mary.         
+-I went to watch spider man at Imax
+
+--------------------------------------------
 
  {'CD1' : {'PTRANS' : {'actor' : 'I',
                         'object' : 'I',
@@ -63,7 +81,7 @@ import cPickle as pickle
 {'enable': ['CD3', 'CD7']}
 '''
 
-CD_dict = {
+CD_dict1 = {
 '1': {'result' : [{'CD1' : {'PTRANS' : {'actor' : 'I',
                         'object' : 'I',
                         'from' : '?',
@@ -129,6 +147,143 @@ CD_dict = {
            
 }
 
+'''---------------------------------------------------------------------------------------------------------'''
+
+CD_dict2 = {
+'1': {'result' : [{'CD1' : {'PTRANS' : {'actor' : 'I',
+                        'object' : 'I',
+                        'from' : '?',
+                        'to' : 'AMC',
+                        'instr' : '?'}}} ,
+#                 {'CD2' : ['LOCATION', ['I'], 'AMC']}]},                  
+                {'CD2' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'AMC'}}}]},
+
+# '2': {'enable' : [{'CD2' : ['LOCATION', ['I'], 'AMC']},            
+'2': {'enable' : [{'CD2' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'AMC'}}}, 
+                {'CD3' : {'MTRANS' : {'actor' : 'I',
+                                      'mObject' : 'Movie SpiderMan at AMC',
+                                      'from' : 'Movie-SpiderMan',
+                                      'to' : 'I',
+                                      'instr' : { 'ATTEND' : { 
+                                                              'actor' : 'I',
+                                                              'object' : 'part-of-I',
+                                                              'from' : '?',
+                                                              'to' : 'Movie-Screen'
+                        }}}}} ]},
+           
+'3': { 'result' : [{'CD5' : {'PTRANS' : {'actor' : ('I','John','Mary'),
+                                       'object' : ('I','John','Mary'),
+                                       'from' : '?',
+                                       'to' : 'AMC',
+                                       'instr' : '?'}}} ,
+#                 {'CD6' : ['LOCATION', ['I','John','Mary'], 'AMC']} ]},                   
+                {'CD6' : {'LOCATION' : {'actor' : ('I','John','Mary'),
+                                        'place' : 'AMC'}}} ]},
+           
+'4': { 'enable' : [{'CD3' : {'MTRANS' : {'actor' : 'I',
+                                       'mObject' : 'Movie SpiderMan at AMC',
+                                       'from' : 'Movie-SpiderMan',
+                                       'to' : 'I',
+                                       'instr' : { 'ATTEND' : { 
+                                                               'actor' : 'I',
+                                                               'object' : 'part-of-I',
+                                                               'from' : '?',
+                                                               'to' : 'Movie-Screen'
+                                                               }}}}} ,
+                 {'CD7' : {'MTRANS' : {'actor' : 'I',
+                         
+                                        'mObject' : {'ATTEND' :   
+                                                     {'actor' : '?',
+                                                      'object' : 'Movie SpiderMan at Imax',
+                                                      'from' : '?',
+                                                      'to' : '?',
+                                                      'instr' : '?'}},
+                                       'from' : 'I',
+                                       'to' : '?',
+                                       'instr' : '?'
+                                       }}} ]},
+           
+'5': {'CD4': {'MTRANS'    : {'actor' : 'I',
+                        'mObject' : 'popcorn',
+                        'state-change-before' : '?',
+                        'state-change-after' : 'love>8',                        
+#                         'love-state-before' : '?',
+#                         'love-state-after' : '>8',
+                        }}}
+           
+}
+
+'''--------------------------------------------------------------------------------------------------------'''
+
+CD_dict3 = {
+'1': {'result' : [{'CD1' : {'PTRANS' : {'actor' : 'I',
+                        'object' : 'I',
+                        'from' : '?',
+                        'to' : 'AMC',
+                        'instr' : '?'}}} ,
+#                 {'CD2' : ['LOCATION', ['I'], 'AMC']}]},                  
+                {'CD2' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'AMC'}}}]},
+
+# '2': {'enable' : [{'CD2' : ['LOCATION', ['I'], 'AMC']},            
+'2': {'enable' : [{'CD2' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'AMC'}}}, 
+                {'CD3' : {'MTRANS' : {'actor' : 'I',
+                                      'mObject' : 'Movie-SpiderMan',
+                                      'from' : 'Movie-SpiderMan',
+                                      'to' : 'I',
+                                      'instr' : { 'ATTEND' : { 
+                                                              'actor' : 'I',
+                                                              'object' : 'part-of-I',
+                                                              'from' : '?',
+                                                              'to' : 'Movie-Screen'
+                        }}}}} ]},
+           
+'3': { 'result' : [{'CD5' : {'PTRANS' : {'actor' : ('I','John','Mary'),
+                                       'object' : ('I','John','Mary'),
+                                       'from' : '?',
+                                       'to' : 'AMC',
+                                       'instr' : '?'}}} ,
+#                 {'CD6' : ['LOCATION', ['I','John','Mary'], 'AMC']} ]},                   
+                {'CD6' : {'LOCATION' : {'actor' : ('I','John','Mary'),
+                                        'place' : 'AMC'}}} ]},
+           
+'4': {'result' : [{'CD7' : {'PTRANS' : {'actor' : 'I',
+                        'object' : 'I',
+                        'from' : '?',
+                        'to' : 'IMax',
+                        'instr' : '?'}}} ,
+#                 {'CD8' : ['LOCATION', ['I'], 'IMax']}]},                  
+                {'CD8' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'Imax'}}}]},
+
+# '2': {'enable' : [{'CD8' : ['LOCATION', ['I'], 'IMax']},            
+'5': {'enable' : [{'CD8' : {'LOCATION': {'actor' : ('I'), 
+                                         'place' : 'IMax'}}}, 
+                {'CD9' : {'MTRANS' : {'actor' : 'I',
+                                      'mObject' : 'Movie-SpiderMan',
+                                      'from' : 'Movie-SpiderMan',
+                                      'to' : 'I',
+                                      'instr' : { 'ATTEND' : { 
+                                                              'actor' : 'I',
+                                                              'object' : 'part-of-I',
+                                                              'from' : '?',
+                                                              'to' : 'Movie-Screen'
+                        }}}}} ]},
+           
+'6': {'CD4': {'MTRANS'    : {'actor' : 'I',
+                        'mObject' : 'popcorn',
+                        'state-change-before' : '?',
+                        'state-change-after' : 'love>8',                        
+#                         'love-state-before' : '?',
+#                         'love-state-after' : '>8',
+                        }}}
+           
+}    
+
+'''----------------------------------------------------------------------------------------------------------------'''
 # Saving the CD dictionary in a pickle file
 #pickle.dump(CD_dict, open('CDs.p', 'wb'))       
 
@@ -168,8 +323,16 @@ def getCDList(object):
                         queue.append(item)
                 
     return CD_List
-  
-masterCD_List = makeCDMasterList(CD_dict)
+
+def getMasterCDList(option):
+    if option == 1:
+        return makeCDMasterList(CD_dict1)
+    elif option == 2:
+        return makeCDMasterList(CD_dict2)
+    else:
+        return makeCDMasterList(CD_dict3) 
+
+#masterCD_List = makeCDMasterList(CD_dict1)
 # masterCD_List = list(set(masterCD_List))
 # print '*' * 50
 # for CD in masterCD_List:
