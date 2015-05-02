@@ -28,20 +28,12 @@ class SimilarityFinder:
             for eachValue in choices[key]:            
                 for eachRecoSyn in recommendationFiltered:                
                     choiceScores[key].append(eachRecoSyn.path_similarity(eachValue))
-                    
-            
-        
-        
-        #print 'recommendationFiltered',recommendationFiltered  # @UndefinedVariable
-        #print 'choices',choices  # @UndefinedVariable
-        #print 'choiceScores',choiceScores
-        
+                            
         maxChoiceScores = {}
         
         for eachKey in choiceScores.keys():        
             maxChoiceScores[eachKey] = max(choiceScores[eachKey])
         
-        #print 'maxChoiceScores',maxChoiceScores
         return maxChoiceScores
 
 

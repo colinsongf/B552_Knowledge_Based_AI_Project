@@ -330,9 +330,9 @@ def printActionScriptsAndEnglishTranslations(actionScriptMasterList,actionScript
     
     for i in range(len(actionScriptMasterList)):  
         print
-        print 'Action Script #        : ', i+1 
-        print 'Action Script          : ', actionScriptMasterList[i]                     
-        print 'Action Script Sentence : ', actionScriptEnglishSentenceMasterList[i] 
+        print '\tAction Script #        : ', i+1 
+        print '\tAction Script          : ', actionScriptMasterList[i]                     
+        print '\tAction Script Sentence : ', actionScriptEnglishSentenceMasterList[i] 
         print
         if (i != len(actionScriptMasterList)-1):
             print '-'*130 
@@ -361,8 +361,21 @@ def printCDs(masterCD_List):
 def findMutualExcluvityAndRecommendation(mutual_Exclusivity_TOP):
     ''' Find Mutual Exclusivity and Recommendation using the Python NLTK (Natural Language ToolKit) '''
 
+    
+    actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
+    
+    #print "Action Script Master List"
+    #print actionScriptMasterList
+    #print "Action Script English Sentence Master list"
+    #print actionScriptEnglishSentenceMasterList
+    #print "Mutual Exclusivity TOP"
+    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
+    #print mutual_Exclusivity_TOP
+    
     if mutual_Exclusivity_TOP == False:
-        print "-------------- NO RECOMMENDATION OF MUTUAL EXCLUSITY BETWEEN ITEMS FOUND IN SENTENCES ----------------"
+        print '-- +','-'*100, '+ --'            
+        print ' '*20, 'NO RECOMMENDATION OF MUTUAL EXCLUSITY BETWEEN ITEMS FOUND IN SENTENCES'
+        print '-- +','-'*100, '+ --'            
     else:
         ''' If this is a list that means the TOP got activated:
             The list can have two type of structures as per our CDS 
@@ -373,40 +386,46 @@ def findMutualExcluvityAndRecommendation(mutual_Exclusivity_TOP):
         #listToProcess1 = ['movie at amc',['movie at imax','popcorn']]
         processedList, descriptionDict = processListAfterTopActivated(mutual_Exclusivity_TOP)
         
-        #print processedList
-        #print descriptionDict
         
         similarityFinder = SimilarityFinder(processedList)
         maxScoresDict = similarityFinder.findSimilarity()
         
         #print maxScoresDict
-        
+
+        print
+        print '-- +','-'*120,'+ --'
+        print ' '*40, 'Probable Recommendations Found' 
+        print '-- +','-'*120, '+ --'
+        print
         for key in maxScoresDict.keys():
-            print '-+------------------------------------------------------------------------------------------------+-'
             if str(maxScoresDict[key]) == '1.0':
                 #That means that there are two items which are similar
-                print "\tPreferred " + key + " " + descriptionDict[key] + " Over " + key + " " + descriptionDict[key+'#']            
+                print ' '*25, "Preferred '" + key + " " + descriptionDict[key] + "' Over '" + key + " " + descriptionDict[key+'#'] +"'"            
                
             else:    
-                print "\t" + mutual_Exclusivity_TOP[0] + " " +  " preferred over " + key + " " + valueForKey(descriptionDict, key) + " with score %.2f" % maxScoresDict[key] + " out of 1.0"
-                    
-        
-        print '-+------------------------------------------------------------------------------------------------+-'  
-        print '\n'
+                print ' '*25,"'" + mutual_Exclusivity_TOP[0] + "' preferred over '" + key + (" " + valueForKey(descriptionDict, key)).rstrip() + "' with score %.2f" % maxScoresDict[key] + " out of 1.0"
+            
+        print
+        print '-'*130 
+        print 
+        print
+        print
+        print '-- +','-'*120,'+ --'
+        print ' '*40, 'Most Preferred' 
+        print '-- +','-'*120, '+ --'
+        print
+    
+    
         #some more explanations
         if len(maxScoresDict.keys()) > 1 and max(maxScoresDict.values()) != 1.0:
-            print 'Most Preferred :-> '
-            print "\t'" +mutual_Exclusivity_TOP[0] + "' is being recommended as MOST LIKELIHOOD over '" + max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0] + \
+            print ' '*25, "'" +mutual_Exclusivity_TOP[0] + "' is being recommended as MOST LIKELIHOOD over '" + max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0] + \
             " " + valueForKey(descriptionDict, max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0]) +"'"
         elif max(maxScoresDict.values()) == 1.0:
-            print 'Most Preferred :-> '
-            
-            print "\t'" +mutual_Exclusivity_TOP[0] + "' is being recommended as MOST LIKELIHOOD over '" + \
+            print ' '*25, "'" +mutual_Exclusivity_TOP[0] + "' is being recommended as MOST LIKELIHOOD over '" + \
             max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0] + \
             " " + descriptionDict[max(maxScoresDict.iteritems(), key=operator.itemgetter(1))[0]+'#'] + "'" 
-        
-
-
+        print
+        print '-'*130
     
 # Main()
 if __name__ == "__main__":
@@ -470,7 +489,14 @@ if __name__ == "__main__":
     mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
     
     if (mutual_Exclusivity_TOP):
-        print "Mutual Exclusivity TOP : ", mutual_Exclusivity_TOP
+        print
+        print '-- +','-'*120,'+ --'
+        print ' '*40, 'Mutual Exclusivity TOP' 
+        print '-- +','-'*120, '+ --'
+        print
+        print ' '*25, mutual_Exclusivity_TOP
+        print
+        print '-'*130
         print
 
     print
