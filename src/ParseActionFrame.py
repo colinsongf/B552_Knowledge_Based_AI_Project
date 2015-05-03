@@ -43,19 +43,19 @@ from string import lower
 from nltk.corpus import wordnet as wn
 from SimilarityFinder import SimilarityFinder
 
-class ActionScript:
-    actionScriptCounter = 0
-    ' Class for an Action Script'
+class ActionFrame:
+    ActionFrameCounter = 0
+    ' Class for an Action Frame'
     def __init__(self, actionType=None, actionActor=None, actionReqdField=None):
-        ActionScript.actionScriptCounter += 1
-        self.actionScriptNum = ActionScript.actionScriptCounter
+        ActionFrame.ActionFrameCounter += 1
+        self.ActionFrameNum = ActionFrame.ActionFrameCounter
         self.actionType = actionType
         self.actionActor = actionActor
         # will be a dict type with correct object referenced
         self.actionReqdField = actionReqdField
 
-    def getActionScriptNum(self):
-        return self.actionScriptNum
+    def getActionFrameNum(self):
+        return self.ActionFrameNum
     
     def getActionType(self):
         return self.actionType
@@ -76,10 +76,10 @@ class ActionScript:
         self.actionReqdField = actionReqdField
         
     def __del__(self):
-        ActionScript.actionScriptCounter -= 1
+        ActionFrame.ActionFrameCounter -= 1
                                    
-def createActionScript(ruleDict, CD):
-    ' Method to create an Action Script based on a set of rules and parsing a CD'
+def createActionFrame(ruleDict, CD):
+    ' Method to create an Action Frame based on a set of rules and parsing a CD'
     #cdQueue is a Queue which has a state of the form [[1,2,3],[1,2,3]]
     #1 can be empty or correspond to CD attributes eg: mObject
     #2 has to be a CD's Action Type (Like MTRANS, PTRANS)
@@ -87,43 +87,43 @@ def createActionScript(ruleDict, CD):
     cdQueue = []
     
     cdQueue.append(['',CD.keys()[0], CD[CD.keys()[0]]])
-    actionScriptBook = []
+    ActionFrameBook = []
     while (cdQueue != []):
        
         CDtoExpand = cdQueue[0]
         del cdQueue[0]
         
         if CDtoExpand[0] != '':
-                actionScriptBook.append([CDtoExpand[0]])
+                ActionFrameBook.append([CDtoExpand[0]])
         
         if ruleDict.has_key(CDtoExpand[1]):
-            if len(actionScriptBook) == 0:
-                actionScriptBook.append(CDtoExpand[1])
-                actionScriptBook.append('actor')
-                actionScriptBook.append(not_known_formatter(CDtoExpand[2]['actor']))
+            if len(ActionFrameBook) == 0:
+                ActionFrameBook.append(CDtoExpand[1])
+                ActionFrameBook.append('actor')
+                ActionFrameBook.append(not_known_formatter(CDtoExpand[2]['actor']))
                 
-            elif isinstance(actionScriptBook[len(actionScriptBook)-1], list):
-                actionScriptBook[len(actionScriptBook)-1].append(CDtoExpand[1])
-                actionScriptBook[len(actionScriptBook)-1].append('actor')
-                actionScriptBook[len(actionScriptBook)-1].append(not_known_formatter(CDtoExpand[2]['actor']))
+            elif isinstance(ActionFrameBook[len(ActionFrameBook)-1], list):
+                ActionFrameBook[len(ActionFrameBook)-1].append(CDtoExpand[1])
+                ActionFrameBook[len(ActionFrameBook)-1].append('actor')
+                ActionFrameBook[len(ActionFrameBook)-1].append(not_known_formatter(CDtoExpand[2]['actor']))
             else:
-                actionScriptBook.append(CDtoExpand[1])
-                actionScriptBook.append('actor')
-                actionScriptBook.append(not_known_formatter(CDtoExpand[2]['actor']))
+                ActionFrameBook.append(CDtoExpand[1])
+                ActionFrameBook.append('actor')
+                ActionFrameBook.append(not_known_formatter(CDtoExpand[2]['actor']))
 
             for field in ruleDict[CDtoExpand[1]].getRelevantFields():
                 if CDtoExpand[2].has_key(field):
                     if (isinstance(CDtoExpand[2][field], dict)):
                         cdQueue.append([field,CDtoExpand[2][field].keys()[0], CDtoExpand[2][field][CDtoExpand[2][field].keys()[0]]])
                     else:
-                        if isinstance(actionScriptBook[len(actionScriptBook)-1], list):
-                            actionScriptBook[len(actionScriptBook)-1].append(field)
-                            actionScriptBook[len(actionScriptBook)-1].append(not_known_formatter(CDtoExpand[2][field]))
+                        if isinstance(ActionFrameBook[len(ActionFrameBook)-1], list):
+                            ActionFrameBook[len(ActionFrameBook)-1].append(field)
+                            ActionFrameBook[len(ActionFrameBook)-1].append(not_known_formatter(CDtoExpand[2][field]))
                         else:
-                            actionScriptBook.append(field)
-                            actionScriptBook.append(not_known_formatter(CDtoExpand[2][field]))
+                            ActionFrameBook.append(field)
+                            ActionFrameBook.append(not_known_formatter(CDtoExpand[2][field]))
     
-    return actionScriptBook
+    return ActionFrameBook
     
 def not_known_formatter(value):
     if value == '?':
@@ -132,8 +132,8 @@ def not_known_formatter(value):
         return value
 
 
-def createSentenceForActionScript(actionScriptBook, sentence=''):
-    ''' Creating a sentence for a given ActionScript'''
+def createSentenceForActionFrame(ActionFrameBook, sentence=''):
+    ''' Creating a sentence for a given ActionFrame'''
     
     '''
     Abstract Acts:
@@ -182,7 +182,7 @@ def createSentenceForActionScript(actionScriptBook, sentence=''):
               }
     
     queue = []
-    queue.append(actionScriptBook)
+    queue.append(ActionFrameBook)
     while (queue != []):
         toExpand = queue[0]
         toExpand = removeNotKnownElements(toExpand)
@@ -199,36 +199,36 @@ def createSentenceForActionScript(actionScriptBook, sentence=''):
     return sentence           
   
   
-def removeNotKnownElements(actionScript):
-    ''' Remove the Not-Known elements to help creating a clear English sentence for a action script
+def removeNotKnownElements(ActionFrame):
+    ''' Remove the Not-Known elements to help creating a clear English sentence for a Action Frame
     Example :-
     Input  : ['MTRANS', 'actor', 'I', 'instr', 'Not-Known', ['mObject', 'ATTEND', 'actor', 'Not-Known', 'object', 'BOOK', 'to', 'Not-Known']]
     Output : ['MTRANS', 'actor', 'I', ['mObject', 'ATTEND', 'object', 'BOOK']] '''
     
-    cleanActionScript = []
-    for item in actionScript:
+    cleanActionFrame = []
+    for item in ActionFrame:
         if (isinstance(item, list)):
             nestedScript = removeNotKnownElements(item)
             if nestedScript is not None:
-                cleanActionScript.append(nestedScript)       
+                cleanActionFrame.append(nestedScript)       
         else:
             if (item == 'Not-Known'):
-                cleanActionScript.pop()
+                cleanActionFrame.pop()
             else:
-                cleanActionScript.append(item)
+                cleanActionFrame.append(item)
             
-    return cleanActionScript
+    return cleanActionFrame
 
 
-def is_mutual_exclusivity_top_activated(actionScriptsList):
-    '''actionScript is a list of action scripts'''
+def is_mutual_exclusivity_top_activated(ActionFramesList):
+    '''ActionFrame is a list of Action Frames'''
     flag = 1
-    for eachActionScript in actionScriptsList:
-        for eachSubItem in eachActionScript:
+    for eachActionFrame in ActionFramesList:
+        for eachSubItem in eachActionFrame:
             if(isinstance(eachSubItem, list)):
                 if ('mObject' in eachSubItem):
-                    recommendScript = eachActionScript
-                    actorInRecommendScript = eachActionScript[eachActionScript.index('actor')+1]
+                    recommendScript = eachActionFrame
+                    actorInRecommendScript = eachActionFrame[eachActionFrame.index('actor')+1]
                     recommededObject = eachSubItem[eachSubItem.index('object')+1]
                     flag = 0
                     break
@@ -238,14 +238,14 @@ def is_mutual_exclusivity_top_activated(actionScriptsList):
     
     #Finding objects over which recommendation happens
     objectList = []
-    for eachActionScript in actionScriptsList:
-        if ('actor' in eachActionScript):
-            if(('mObject' in eachActionScript) or ('object' in eachActionScript)):
-                if (actorInRecommendScript == eachActionScript[eachActionScript.index('actor')+1]):
-                    if ('mObject' in eachActionScript):
-                        objectList.append(eachActionScript[eachActionScript.index('mObject')+1])
+    for eachActionFrame in ActionFramesList:
+        if ('actor' in eachActionFrame):
+            if(('mObject' in eachActionFrame) or ('object' in eachActionFrame)):
+                if (actorInRecommendScript == eachActionFrame[eachActionFrame.index('actor')+1]):
+                    if ('mObject' in eachActionFrame):
+                        objectList.append(eachActionFrame[eachActionFrame.index('mObject')+1])
                     else:
-                        objectList.append(eachActionScript[eachActionScript.index('object')+1])
+                        objectList.append(eachActionFrame[eachActionFrame.index('object')+1])
     
     if recommendScript == None:
         return False
@@ -301,40 +301,40 @@ def valueForKey(dict,key):
     except:
         return ""
    
-def createActionScriptsAndEnglishSentences(masterCD_List,ruleDict):
-    ''' Create Action Script and equivalent English Translation for each CD ''' 
-    actionScriptMasterList = [] 
-    actionScriptEnglishSentenceMasterList = []   
+def createActionFramesAndEnglishSentences(masterCD_List,ruleDict):
+    ''' Create Action Frame and equivalent English Translation for each CD ''' 
+    ActionFrameMasterList = [] 
+    ActionFrameEnglishSentenceMasterList = []   
 
-    ## Create Action Script for each CD      
+    ## Create Action Frame for each CD      
     for CD in masterCD_List:
-        actionScript = createActionScript(ruleDict, CD)
-        actionScriptMasterList.append(actionScript)    
-        actionScript =  removeNotKnownElements(actionScript)
+        ActionFrame = createActionFrame(ruleDict, CD)
+        ActionFrameMasterList.append(ActionFrame)    
+        ActionFrame =  removeNotKnownElements(ActionFrame)
             
-        actionScriptSentence = createSentenceForActionScript(actionScript)
-        actionScriptEnglishSentenceMasterList.append(actionScriptSentence)
+        ActionFrameSentence = createSentenceForActionFrame(ActionFrame)
+        ActionFrameEnglishSentenceMasterList.append(ActionFrameSentence)
 
 
-    return actionScriptMasterList,actionScriptEnglishSentenceMasterList
+    return ActionFrameMasterList,ActionFrameEnglishSentenceMasterList
 
-def printActionScriptsAndEnglishTranslations(actionScriptMasterList,actionScriptEnglishSentenceMasterList):
-    ''' Print Action Scripts and Equivalent English Translation for each CD '''
+def printActionFramesAndEnglishTranslations(ActionFrameMasterList,ActionFrameEnglishSentenceMasterList):
+    ''' Print Action Frames and Equivalent English Translation for each CD '''
     
     print
     print '-- +','-'*120, '+ --'
-    print ' '*45, 'Action Scripts and English Translations'
+    print ' '*45, 'Action Frames and English Translations'
     print '-- +','-'*120, '+ --'
     print
     
     
-    for i in range(len(actionScriptMasterList)):  
+    for i in range(len(ActionFrameMasterList)):  
         print
-        print '\tAction Script #        : ', i+1 
-        print '\tAction Script          : ', actionScriptMasterList[i]                     
-        print '\tAction Script Sentence : ', actionScriptEnglishSentenceMasterList[i] 
+        print '\tAction Frame #        : ', i+1 
+        print '\tAction Frame          : ', ActionFrameMasterList[i]                     
+        print '\tAction Frame Sentence : ', ActionFrameEnglishSentenceMasterList[i] 
         print
-        if (i != len(actionScriptMasterList)-1):
+        if (i != len(ActionFrameMasterList)-1):
             print '-'*130 
     print '-'*130
     print
@@ -362,14 +362,14 @@ def findMutualExcluvityAndRecommendation(mutual_Exclusivity_TOP):
     ''' Find Mutual Exclusivity and Recommendation using the Python NLTK (Natural Language ToolKit) '''
 
     
-    actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
+    ActionFrameMasterList,ActionFrameEnglishSentenceMasterList  = createActionFramesAndEnglishSentences(masterCD_List,ruleDict)
     
-    #print "Action Script Master List"
-    #print actionScriptMasterList
-    #print "Action Script English Sentence Master list"
-    #print actionScriptEnglishSentenceMasterList
+    #print "Action Frame Master List"
+    #print ActionFrameMasterList
+    #print "Action Frame English Sentence Master list"
+    #print ActionFrameEnglishSentenceMasterList
     #print "Mutual Exclusivity TOP"
-    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
+    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(ActionFrameMasterList)
     #print mutual_Exclusivity_TOP
     
     if mutual_Exclusivity_TOP == False:
@@ -383,7 +383,7 @@ def findMutualExcluvityAndRecommendation(mutual_Exclusivity_TOP):
             2. ['item1 at xyz1',['item1 at xyz2']] so in this case we are trying to find out the place xyz2 over xyz1'''
               
         #listToProcess= ['movie-SpiderMan',['book-Famous Five','popcorn']]
-        #listToProcess1 = ['movie at amc',['movie at imax','popcorn']]
+        #listToProcess1 = ['movie at amc',['movie at IMAX','popcorn']]
         processedList, descriptionDict = processListAfterTopActivated(mutual_Exclusivity_TOP)
         
         
@@ -449,7 +449,7 @@ if __name__ == "__main__":
     print '-I went to watch spider man at AMC.'
     print '-I loved the popcorn.'
     print '-I went with John and Mary.'
-    print '-I will prefer to watch spider man at Imax'
+    print '-I will prefer to watch spider man at IMAX'
     print ''
     print '-------------------------------------------'    
     print 'Choice 3 :: Sentence Set'
@@ -457,7 +457,7 @@ if __name__ == "__main__":
     print '-I went to watch spider man at AMC.'
     print '-I loved the popcorn.'
     print '-I went with John and Mary.'
-    print '-I went to watch spider man at Imax'
+    print '-I went to watch spider man at IMAX'
     print '-------------------------------------------'
     print ''
     
@@ -473,11 +473,11 @@ if __name__ == "__main__":
     # Print the list of all the CDs
     printCDs(masterCD_List)
 
-    # Create Action Script and English Translation for all the CDs    
-    actionScriptMasterList,actionScriptEnglishSentenceMasterList  = createActionScriptsAndEnglishSentences(masterCD_List,ruleDict)
+    # Create Action Frame and English Translation for all the CDs    
+    ActionFrameMasterList,ActionFrameEnglishSentenceMasterList  = createActionFramesAndEnglishSentences(masterCD_List,ruleDict)
     
-    # Print Action Script and English Translation for all the CDs    
-    printActionScriptsAndEnglishTranslations(actionScriptMasterList,actionScriptEnglishSentenceMasterList)
+    # Print Action Frame and English Translation for all the CDs    
+    printActionFramesAndEnglishTranslations(ActionFrameMasterList,ActionFrameEnglishSentenceMasterList)
     
                        
     '''Now we should look for specific rules to activate the top which are
@@ -485,8 +485,8 @@ if __name__ == "__main__":
         same actor for both sentences
         if needed find similarity or dis similarity by using concept net '''
          
-    # Find the Mutual Exclusivity TOP from the Action Scripts
-    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(actionScriptMasterList)
+    # Find the Mutual Exclusivity TOP from the Action Frames
+    mutual_Exclusivity_TOP = is_mutual_exclusivity_top_activated(ActionFrameMasterList)
     
     if (mutual_Exclusivity_TOP):
         print

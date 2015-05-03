@@ -15,14 +15,14 @@ import cPickle as pickle
 -I went to watch spider man at AMC        
 -I loved the popcorn.         
 -I went with John and Mary.         
--I will prefer to watch spider man at Imax
+-I will prefer to watch spider man at IMAX
 
  SENTENCE 3
  ----------
 -I went to watch spider man at AMC        
 -I loved the popcorn.         
 -I went with John and Mary.         
--I went to watch spider man at Imax
+-I went to watch spider man at IMAX
 
 --------------------------------------------
 
@@ -188,7 +188,7 @@ CD_dict2 = {
                          
                                         'mObject' : {'ATTEND' :   
                                                      {'actor' : '?',
-                                                      'object' : 'Movie SpiderMan at Imax',
+                                                      'object' : 'Movie SpiderMan at IMAX',
                                                       'from' : '?',
                                                       'to' : '?',
                                                       'instr' : '?'}},
@@ -240,13 +240,13 @@ CD_dict3 = {
 '4': {'result' : [{'CD7' : {'PTRANS' : {'actor' : 'I',
                         'object' : 'I',
                         'from' : '?',
-                        'to' : 'IMax',
+                        'to' : 'IMAX',
                         'instr' : '?'}}} ,
                 {'CD8' : {'LOCATION': {'actor' : ('I'), 
-                                         'place' : 'Imax'}}}]},
+                                         'place' : 'IMAX'}}}]},
 
 '5': {'enable' : [{'CD8' : {'LOCATION': {'actor' : ('I'), 
-                                         'place' : 'IMax'}}}, 
+                                         'place' : 'IMAX'}}}, 
                 {'CD9' : {'MTRANS' : {'actor' : 'I',
                                       'mObject' : 'Movie-SpiderMan',
                                       'from' : 'Movie-SpiderMan',
