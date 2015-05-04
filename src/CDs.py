@@ -1,5 +1,15 @@
-import cPickle as pickle
+'''
+CONCEPT LEVEL SENTIMENT ANALYZER
 
+Created on 04/29/2015
+
+@author: 
+    Nihar Khetan <nkhetan@indiana.edu>, Ghanshyam Malu <gmalu@indiana.edu>, Varsha Suresh Kumar<vsureshk@indiana.edu>
+
+Usage: 
+    Execute the code using python 2.7
+
+'''
 '''
  Conceptual Dependencies
  

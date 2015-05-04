@@ -1,7 +1,18 @@
-# import cPickle as pickle
-# Saving the CD dictionary in a pickle file
-# pickle.dump(parseRules, open('parseRules.p', 'wb'))
+'''
+CONCEPT LEVEL SENTIMENT ANALYZER
 
+
+@author: 
+    Nihar Khetan <nkhetan@indiana.edu>, Ghanshyam Malu <gmalu@indiana.edu>, Varsha Suresh Kumar<vsureshk@indiana.edu>
+
+Usage: 
+    Execute the code using python 2.7
+
+Description:   
+    Rules for parsing the Conceptual Dependencies
+    Rules to define the relevant fields for each type of activity in a CD
+
+'''
 class ParseRule:
     'Class for the Parsing Rules'
     

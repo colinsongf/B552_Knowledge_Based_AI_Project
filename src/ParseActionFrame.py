@@ -331,8 +331,8 @@ def printActionFramesAndEnglishTranslations(ActionFrameMasterList,ActionFrameEng
     for i in range(len(ActionFrameMasterList)):  
         print
         print '\tAction Frame #        : ', i+1 
-        print '\tAction Frame          : ', ActionFrameMasterList[i]                     
-        print '\tAction Frame Sentence : ', ActionFrameEnglishSentenceMasterList[i] 
+        print '\tAction Script          : ', ActionFrameMasterList[i]                     
+        print '\tAction Script Sentence : ', ActionFrameEnglishSentenceMasterList[i] 
         print
         if (i != len(ActionFrameMasterList)-1):
             print '-'*130 
