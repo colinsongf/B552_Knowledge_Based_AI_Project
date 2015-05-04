@@ -1,5 +1,5 @@
 '''
-CONCEPT LEVEL SENTIMENT ANALYZER
+RECOMMENDATION DETECTION SYSTEM
 
 Created on 04/04/2015
 
@@ -14,12 +14,21 @@ Description:
     
 Work Efforts          
 -------------------------
+As as Team : 
+    Brainstorming throughout the duration of the project. 
+    Adhered to timeline of the project as discussed with Eriya.
+    Regular meetings with Dr. Leake to discuss on the progress and tackling the roadblocks. 
+    Divided work equally while writing the paper.
+    Proof reading each others work while writing the paper.
+
 Nihar Khetan: 
+    Implementation of the Action Frame creation process and Similarity Finder using the Python NLTK wordnet corpus.  
 
 Ghanshyam Malu: 
+    Implementation of the English translation of the Action Scripts.
 
-Varsha Suresh Kumar:
-
+Varsha Suresh Kumar: 
+    Implementation of the Conceptual Dependency represenation and its parsing script.
 
 Pre-requisite : 
 ----------------------
@@ -432,7 +441,7 @@ if __name__ == "__main__":
     
     print
     print '-- +','-'*120,'+ --'
-    print ' '*40, 'WELCOME TO CONCEPT LEVEL SENTIMENT ANALYZER' 
+    print ' '*40, 'WELCOME TO RECOMMENDATION DETECTION SYSTEM' 
     print '-- +','-'*120, '+ --'
     print 
     print '-------------------------------------------'    
@@ -462,7 +471,7 @@ if __name__ == "__main__":
     print ''
     
     # Accept the user's choice of Sentences Set
-    option = input("Please enter the sentence you want to evaluate :: ")
+    option = input("Please enter the Sentence Set you want to evaluate :: ")
     
     # Get the CD's for the Sentence Set selected from the CDs file
     masterCD_List = CDs.getMasterCDList(int(option))

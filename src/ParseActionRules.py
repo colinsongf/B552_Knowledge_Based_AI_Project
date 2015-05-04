@@ -1,12 +1,13 @@
 '''
-CONCEPT LEVEL SENTIMENT ANALYZER
+RECOMMENDATION DETECTION SYSTEM
 
+Created on 04/04/2015
 
 @author: 
     Nihar Khetan <nkhetan@indiana.edu>, Ghanshyam Malu <gmalu@indiana.edu>, Varsha Suresh Kumar<vsureshk@indiana.edu>
 
 Usage: 
-    Execute the code using python 2.7
+    Execute the RecommendationDetectionSystem.py code using python 2.7
 
 Description:   
     Rules for parsing the Conceptual Dependencies
